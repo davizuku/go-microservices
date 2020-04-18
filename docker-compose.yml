@@ -6,7 +6,7 @@ services:
     command: tail -F /dev/null
     working_dir: /usr/app
     volumes:
-      - .:/usr/app
+      - ./src:/usr/app
     ports:
       - "3000:3000"
     restart: always
