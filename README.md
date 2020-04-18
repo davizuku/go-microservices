@@ -1,6 +1,8 @@
 # go-microservices
 
-Test code following the set of videos from: https://youtu.be/VzBGi_n65iU
+Test code following the set of videos from:  https://www.youtube.com/playlist?list=PLmD8u-IFdreyh6EUfevBcbiuCKzFk0EW_
+
+Teacher's repository: https://github.com/nicholasjackson/Building-Microservices-with-Go-Second-Edition
 
 ## Start working
 
