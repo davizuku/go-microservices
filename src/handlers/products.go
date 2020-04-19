@@ -23,6 +23,7 @@ func (p *Products) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 }
 
 func (p *Products) getProducts(res http.ResponseWriter, req *http.Request) {
+	p.l.Println("Handle GET Product")
 	lp := data.GetProducts()
 	err := lp.ToJSON(res)
 	if err != nil {
