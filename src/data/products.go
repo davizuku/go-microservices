@@ -1,6 +1,10 @@
 package data
 
-import "time"
+import (
+	"encoding/json"
+	"io"
+	"time"
+)
 
 // Product defines the structure for an API product
 type Product struct {
@@ -14,7 +18,18 @@ type Product struct {
 	DeletedOn   string  `json:"-"`
 }
 
-func GetProducts() []*Product {
+type Products []*Product
+
+func (p *Products) ToJSON(w io.Writer) error {
+	// Using Encode is better than using Marshal since it does not require
+	// allocating extra memory for the transformed JSON data. Encoder writes it
+	// directly to the Writer.
+	// @see https://golang.org/pkg/encoding/json/#Marshal
+	// @see https://golang.org/pkg/encoding/json/#Encoder
+	return json.NewEncoder(w).Encode(p)
+}
+
+func GetProducts() Products {
 	return productList
 }
 
