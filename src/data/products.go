@@ -4,14 +4,14 @@ import "time"
 
 // Product defines the structure for an API product
 type Product struct {
-	ID          int
-	Name        string
-	Description string
-	Price       float32
-	SKU         string // Internal product ID
-	CreatedOn   string
-	UpdatedOn   string
-	DeletedOn   string
+	ID          int     `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float32 `json:"price"`
+	SKU         string  `json:"sku"` // Internal id
+	CreatedOn   string  `json:"-"`   // Ommit these fields in JSON representation
+	UpdatedOn   string  `json:"-"`   // @see https://golang.org/pkg/encoding/json/#Marshal
+	DeletedOn   string  `json:"-"`
 }
 
 func GetProducts() []*Product {
