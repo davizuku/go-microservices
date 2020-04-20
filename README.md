@@ -25,3 +25,9 @@ Stop any running docker:
 ```
 make down
 ```
+
+## Useful links:
+
+- https://golang.org/pkg/
+- http://www.gorillatoolkit.org/pkg/mux
+- https://github.com/golang/go/wiki/Modules
