@@ -8,7 +8,8 @@ services:
     volumes:
       - .:/usr/app
     environment:
-      - GOPATH=/go:/usr/app
+      - GOROOT=/usr/local/go
+      - GOPATH=/usr/app
     ports:
       - "3000:3000"
     restart: always

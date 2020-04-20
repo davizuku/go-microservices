@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"data"
 	"log"
 	"net/http"
 	"regexp"
 	"strconv"
+
+	"github.com/davizuku/go-microservices/data"
 )
 
 type Products struct {

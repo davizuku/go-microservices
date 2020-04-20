@@ -2,12 +2,13 @@ package main
 
 import (
 	"context"
-	"handlers"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/davizuku/go-microservices/handlers"
 )
 
 func main() {
