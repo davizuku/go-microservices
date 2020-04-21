@@ -4,7 +4,7 @@ help:		## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 run:		## Start the node container
-	@docker-compose up -d
+	@docker-compose up
 down:		## Stop the node container
 	@docker-compose down
 

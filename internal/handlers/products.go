@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/davizuku/go-microservices/data"
+	"github.com/davizuku/go-microservices/internal/data"
 )
 
 type Products struct {

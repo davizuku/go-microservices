@@ -8,13 +8,15 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/davizuku/go-microservices/handlers"
+	"github.com/davizuku/go-microservices/internal/handlers"
 )
 
 func main() {
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 	ph := handlers.NewProducts(l)
 	sm := http.NewServeMux()
+
+	// gorillaRouter := mux.NewRouter()
 
 	sm.Handle("/", ph)
 
@@ -26,6 +28,7 @@ func main() {
 		ReadTimeout:  1 * time.Second,
 		WriteTimeout: 1 * time.Second,
 	}
+
 	go func() {
 		err := s.ListenAndServe()
 		if err != nil {
