@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"strconv"
@@ -26,18 +27,14 @@ func (p *Products) GetProducts(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func (p *Products) AddProduct(res http.ResponseWriter, req *http.Request) {
+func (p Products) AddProduct(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Handle POST Product")
-	prod := &data.Product{}
-	err := prod.FromJSON(req.Body)
-	if err != nil {
-		http.Error(res, "Unable to unmarshal json", http.StatusBadRequest)
-	}
+	prod := req.Context().Value(KeyProduct{}).(data.Product)
 	p.l.Printf("Prod: %#v", prod)
-	data.AddProduct(prod)
+	data.AddProduct(&prod)
 }
 
-func (p *Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
+func (p Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -45,13 +42,8 @@ func (p *Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	p.l.Println("Handle PUT Product", id)
-	prod := &data.Product{}
-	err = prod.FromJSON(req.Body)
-	if err != nil {
-		http.Error(res, "Unable to unmarshal json", http.StatusBadRequest)
-		return
-	}
-	err = data.UpdateProduct(id, prod)
+	prod := req.Context().Value(KeyProduct{}).(data.Product)
+	err = data.UpdateProduct(id, &prod)
 	if err == data.ErrProductNotFound {
 		http.Error(res, "Product not found", http.StatusNotFound)
 		return
@@ -61,4 +53,20 @@ func (p *Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	p.l.Printf("Prod: %#v", prod)
+}
+
+type KeyProduct struct{}
+
+func (p Products) MiddlewareValidateProduct(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		prod := data.Product{}
+		err := prod.FromJSON(req.Body)
+		if err != nil {
+			http.Error(res, "Unable to unmarshal json", http.StatusBadRequest)
+			return
+		}
+		ctx := context.WithValue(req.Context(), KeyProduct{}, prod)
+		req = req.WithContext(ctx)
+		next.ServeHTTP(res, req)
+	})
 }
