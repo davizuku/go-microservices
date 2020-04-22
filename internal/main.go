@@ -9,16 +9,21 @@ import (
 	"time"
 
 	"github.com/davizuku/go-microservices/internal/handlers"
+	"github.com/gorilla/mux"
 )
 
 func main() {
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 	ph := handlers.NewProducts(l)
-	sm := http.NewServeMux()
+	sm := mux.NewRouter()
+	getRouter := sm.Methods(http.MethodGet).Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
 
-	// gorillaRouter := mux.NewRouter()
+	putRouter := sm.Methods(http.MethodPut).Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}", ph.UpdateProducts)
 
-	sm.Handle("/", ph)
+	postRouter := sm.Methods(http.MethodPost).Subrouter()
+	postRouter.HandleFunc("/", ph.AddProduct)
 
 	// Non standard server creation. Standard server is http package.
 	s := &http.Server{

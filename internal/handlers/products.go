@@ -3,10 +3,10 @@ package handlers
 import (
 	"log"
 	"net/http"
-	"regexp"
 	"strconv"
 
 	"github.com/davizuku/go-microservices/internal/data"
+	"github.com/gorilla/mux"
 )
 
 type Products struct {
@@ -17,36 +17,7 @@ func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }
 
-func (p *Products) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	if req.Method == http.MethodGet {
-		p.getProducts(res, req)
-		return
-	}
-	if req.Method == http.MethodPost {
-		p.addProduct(res, req)
-		return
-	}
-	if req.Method == http.MethodPut {
-		p.l.Println("Parse PUT Product URL")
-		// expect the id to be in the URI
-		regex := regexp.MustCompile(`/([0-9]+)`)
-		groups := regex.FindAllStringSubmatch(req.URL.Path, -1)
-		if len(groups) != 1 || len(groups[0]) != 2 {
-			http.Error(res, "Invalid URI", http.StatusBadRequest)
-			return
-		}
-		idString := groups[0][1]
-		id, err := strconv.Atoi(idString)
-		if err != nil {
-			http.Error(res, "Could not convert string ID to int", http.StatusBadRequest)
-			return
-		}
-		p.updateProducts(id, res, req)
-	}
-	res.WriteHeader(http.StatusMethodNotAllowed)
-}
-
-func (p *Products) getProducts(res http.ResponseWriter, req *http.Request) {
+func (p *Products) GetProducts(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Handle GET Product")
 	lp := data.GetProducts()
 	err := lp.ToJSON(res)
@@ -55,7 +26,7 @@ func (p *Products) getProducts(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func (p *Products) addProduct(res http.ResponseWriter, req *http.Request) {
+func (p *Products) AddProduct(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Handle POST Product")
 	prod := &data.Product{}
 	err := prod.FromJSON(req.Body)
@@ -66,12 +37,19 @@ func (p *Products) addProduct(res http.ResponseWriter, req *http.Request) {
 	data.AddProduct(prod)
 }
 
-func (p *Products) updateProducts(id int, res http.ResponseWriter, req *http.Request) {
-	p.l.Println("Handle PUT Product")
+func (p *Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(res, "Unable to convert ID to int", http.StatusBadRequest)
+		return
+	}
+	p.l.Println("Handle PUT Product", id)
 	prod := &data.Product{}
-	err := prod.FromJSON(req.Body)
+	err = prod.FromJSON(req.Body)
 	if err != nil {
 		http.Error(res, "Unable to unmarshal json", http.StatusBadRequest)
+		return
 	}
 	err = data.UpdateProduct(id, prod)
 	if err == data.ErrProductNotFound {
