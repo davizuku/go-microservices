@@ -84,6 +84,25 @@ func (p Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 	p.l.Printf("Prod: %#v", prod)
 }
 
+func (p Products) DeleteProduct(res http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(res, "Unable to convert ID to int", http.StatusBadRequest)
+		return
+	}
+	p.l.Println("Handle DELETE Product", id)
+	err = data.DeleteProduct(id)
+	if err == data.ErrProductNotFound {
+		http.Error(res, "Product not found", http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		http.Error(res, "Could not delete the product", http.StatusInternalServerError)
+		return
+	}
+}
+
 type KeyProduct struct{}
 
 func (p Products) MiddlewareValidateProduct(next http.Handler) http.Handler {
