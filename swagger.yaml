@@ -9,7 +9,9 @@ definitions:
         type: string
         x-go-name: Description
       id:
+        description: The id of this product
         format: int64
+        minimum: 1
         type: integer
         x-go-name: ID
       name:
@@ -22,6 +24,8 @@ definitions:
       sku:
         type: string
         x-go-name: SKU
+    required:
+    - id
     type: object
     x-go-package: github.com/davizuku/go-microservices/internal/data
 info:
