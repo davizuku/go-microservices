@@ -32,3 +32,5 @@ make down
 - http://www.gorillatoolkit.org/pkg/mux
 - https://github.com/golang/go/wiki/Modules
 - https://github.com/go-playground/validator
+- https://goswagger.io
+- https://github.com/golang-standards/project-layout

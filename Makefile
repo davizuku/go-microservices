@@ -12,6 +12,10 @@ build:		## Build the services
 down:		## Stop the node container
 	@docker-compose down
 
+.PHONY: swagger
+swagger:	## (Re)generate the swagger documentation
+	@docker-compose exec -e GO111MODULE=off go swagger generate spec -o ./swagger.yaml --scan-models
+
 bash:		## Open a new interactive bash in the go container
 	@docker-compose exec go /bin/bash
 
