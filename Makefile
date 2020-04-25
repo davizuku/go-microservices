@@ -5,6 +5,10 @@ help:		## Show this help.
 
 run:		## Start the node container
 	@docker-compose up
+
+.PHONY: build
+build:		## Build the services
+	@docker-compose build
 down:		## Stop the node container
 	@docker-compose down
 
