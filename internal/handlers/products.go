@@ -33,6 +33,17 @@ type productsResponseWrapper struct { // This is only used for swagger documenta
 	Body []data.Product
 }
 
+// swagger:parameters deleteProduct
+type productIDParameterWrapper struct {
+	// The id of the product to delete from the data store
+	// in: path
+	// required: true
+	ID int `"json:id"`
+}
+
+// swagger:response noContent
+type productsNoContent struct{}
+
 type Products struct {
 	l *log.Logger
 }
@@ -84,6 +95,12 @@ func (p Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 	p.l.Printf("Prod: %#v", prod)
 }
 
+// swagger:route DELETE /products/{id} products deleteProduct
+// Returns a list of products
+// responses:
+// 	201: noContent
+
+// DeleteProduct removes a product from the data store
 func (p Products) DeleteProduct(res http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id, err := strconv.Atoi(vars["id"])
