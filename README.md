@@ -34,3 +34,4 @@ make down
 - https://github.com/go-playground/validator
 - https://goswagger.io
 - https://github.com/golang-standards/project-layout
+- https://redocly.github.io/redoc/
