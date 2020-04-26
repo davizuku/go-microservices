@@ -2,7 +2,7 @@
 
 Test code following the set of videos from:  https://www.youtube.com/playlist?list=PLmD8u-IFdreyh6EUfevBcbiuCKzFk0EW_
 
-Teacher's repository: https://github.com/nicholasjackson/Building-Microservices-with-Go-Second-Edition
+Teacher's repository: https://github.com/PacktPublishing/Building-Microservices-with-Go-Second-Edition
 
 ## Start working
 
