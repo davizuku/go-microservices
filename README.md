@@ -35,3 +35,10 @@ make down
 - https://goswagger.io
 - https://github.com/golang-standards/project-layout
 - https://redocly.github.io/redoc/
+
+
+### Debugging in VS Code
+
+- https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code
+- https://github.com/go-delve/delve/issues/986
+- make sure you execute `xcode-select --install`
