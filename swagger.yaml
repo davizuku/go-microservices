@@ -3,15 +3,15 @@ consumes:
 - application/json
 definitions:
   GenericError:
-    description: GenericError GenericError is a generic error message returned by
-      a server
+    description: GenericError GenericError GenericError is a generic error message
+      returned by a server
     properties:
       message:
         description: message
         type: string
         x-go-name: Message
     type: object
-    x-go-package: github.com/davizuku/go-microservices/models
+    x-go-package: github.com/davizuku/go-microservices/cmd/models
   Product:
     description: Product defines the structure for an API product
     properties:
@@ -52,8 +52,8 @@ definitions:
     type: object
     x-go-package: github.com/davizuku/go-microservices/internal/data
   ValidationError:
-    description: ValidationError ValidationError is a collection of validation error
-      messages
+    description: ValidationError ValidationError ValidationError is a collection of
+      validation error messages
     properties:
       messages:
         description: messages
@@ -62,7 +62,7 @@ definitions:
         type: array
         x-go-name: Messages
     type: object
-    x-go-package: github.com/davizuku/go-microservices/models
+    x-go-package: github.com/davizuku/go-microservices/cmd/models
 info:
   description: Documentation for Product API
   title: Product API
