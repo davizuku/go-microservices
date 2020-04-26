@@ -71,11 +71,13 @@ type productIDParameterWrapper struct {
 	// The id of the product to delete from the data store
 	// in: path
 	// required: true
-	ID int `"json:id"`
+	ID int `json:"id"`
 }
 
+// No content is returned by this API endpoint
 // swagger:response noContentResponse
-type noContentResponseWrapper struct{}
+type noContentResponseWrapper struct {
+}
 
 // GenericError is a generic error message returned by a server
 type GenericError struct {

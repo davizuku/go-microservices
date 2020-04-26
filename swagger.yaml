@@ -3,13 +3,15 @@ consumes:
 - application/json
 definitions:
   GenericError:
-    description: GenericError is a generic error message returned by a server
+    description: GenericError GenericError is a generic error message returned by
+      a server
     properties:
       message:
+        description: message
         type: string
         x-go-name: Message
     type: object
-    x-go-package: github.com/davizuku/go-microservices/internal/handlers
+    x-go-package: github.com/davizuku/go-microservices/models
   Product:
     description: Product defines the structure for an API product
     properties:
@@ -50,15 +52,17 @@ definitions:
     type: object
     x-go-package: github.com/davizuku/go-microservices/internal/data
   ValidationError:
-    description: ValidationError is a collection of validation error messages
+    description: ValidationError ValidationError is a collection of validation error
+      messages
     properties:
       messages:
+        description: messages
         items:
           type: string
         type: array
         x-go-name: Messages
     type: object
-    x-go-package: github.com/davizuku/go-microservices/internal/handlers
+    x-go-package: github.com/davizuku/go-microservices/models
 info:
   description: Documentation for Product API
   title: Product API
@@ -102,9 +106,10 @@ paths:
       - description: The id of the product to delete from the data store
         format: int64
         in: path
-        name: ID
+        name: id
         required: true
         type: integer
+        x-go-name: ID
       responses:
         "201":
           $ref: '#/responses/noContentResponse'
@@ -121,9 +126,10 @@ paths:
       - description: The id of the product to delete from the data store
         format: int64
         in: path
-        name: ID
+        name: id
         required: true
         type: integer
+        x-go-name: ID
       responses:
         "201":
           $ref: '#/responses/noContentResponse'
@@ -144,7 +150,8 @@ responses:
     description: Validation errors defined as an array of strings
     schema:
       $ref: '#/definitions/ValidationError'
-  noContentResponse: {}
+  noContentResponse:
+    description: No content is returned by this API endpoint
   productResponse:
     description: A single product returned in the response
     schema:
