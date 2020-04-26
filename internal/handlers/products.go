@@ -106,6 +106,7 @@ func NewProducts(l *log.Logger) *Products {
 func (p *Products) GetProducts(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Handle GET Product")
 	lp := data.GetProducts()
+	res.Header().Add("Content-Type", "application/json")
 	err := lp.ToJSON(res)
 	if err != nil {
 		http.Error(res, "Unable to marshal json", http.StatusInternalServerError)
