@@ -17,14 +17,36 @@ type Product struct {
 	//
 	// required: true
 	// min: 1
-	ID          int     `json:"id"`
-	Name        string  `json:"name" validate:"required"`
-	Description string  `json:"description"`
-	Price       float32 `json:"price" validate:"gt=0"`
-	SKU         string  `json:"sku" validate:"required,sku"` // Internal id
-	CreatedOn   string  `json:"-"`                           // Ommit these fields in JSON representation
-	UpdatedOn   string  `json:"-"`                           // @see https://golang.org/pkg/encoding/json/#Marshal
-	DeletedOn   string  `json:"-"`
+	ID int `json:"id"`
+
+	// The name for this product
+	//
+	// required: true
+	// min length: 1
+	Name string `json:"name" validate:"required"`
+
+	// The description of the product
+	//
+	// required: false
+	// max length: 1000
+	Description string `json:"description"`
+
+	// The price of the product
+	//
+	// required: true
+	// min: 0.01
+	// max: 10.00
+	Price float32 `json:"price" validate:"gt=0"`
+
+	// the unique stock keeping unit (SKU) of the product
+	//
+	// required: true
+	// pattern: [a-z0-9]+\-[a-z0-9]+\-[a-z0-9]+
+	// example: abc-123-b4d
+	SKU       string `json:"sku" validate:"required,sku"` // Internal id
+	CreatedOn string `json:"-"`                           // Ommit these fields in JSON representation
+	UpdatedOn string `json:"-"`                           // @see https://golang.org/pkg/encoding/json/#Marshal
+	DeletedOn string `json:"-"`
 }
 
 func (p *Product) FromJSON(r io.Reader) error {

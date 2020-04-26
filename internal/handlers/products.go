@@ -25,6 +25,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Generic error message returned as a string
+// swagger:response errorResponse
+type errorResponseWrapper struct {
+	// Description of the error
+	// in: body
+	Body GenericError
+}
+
+// Validation errors defined as an array of strings
+// swagger:response errorValidation
+type errorValidationWrapper struct {
+	// Collection of the errors
+	// in: body
+	Body ValidationError
+}
+
 // A list of products returns in the response
 // swagger:response productsResponse
 type productsResponseWrapper struct { // This is only used for swagger documentation
@@ -33,7 +49,24 @@ type productsResponseWrapper struct { // This is only used for swagger documenta
 	Body []data.Product
 }
 
-// swagger:parameters deleteProduct
+// A single product returned in the response
+// swagger:response productResponse
+type productResponseWrapper struct { // This is only used for swagger documentation
+	// A product in the system
+	// in: body
+	Body data.Product
+}
+
+// swagger:parameters update create
+type productParamsWrapper struct {
+	// Product data structure to Update or Create.
+	// Note: the id field is ignored by update and create operations
+	// in: body
+	// required: true
+	Body data.Product
+}
+
+// swagger:parameters deleteProduct updateProduct
 type productIDParameterWrapper struct {
 	// The id of the product to delete from the data store
 	// in: path
@@ -41,8 +74,18 @@ type productIDParameterWrapper struct {
 	ID int `"json:id"`
 }
 
-// swagger:response noContent
-type productsNoContent struct{}
+// swagger:response noContentResponse
+type noContentResponseWrapper struct{}
+
+// GenericError is a generic error message returned by a server
+type GenericError struct {
+	Message string `json:"message"`
+}
+
+// ValidationError is a collection of validation error messages
+type ValidationError struct {
+	Messages []string `json:"messages"`
+}
 
 type Products struct {
 	l *log.Logger
@@ -67,6 +110,15 @@ func (p *Products) GetProducts(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// swagger:route POST /products products create
+// Create a new product
+//
+// responses:
+// 		200: productResponse
+// 		422: errorValidation
+// 		501: errorResponse
+
+// AddProduct creates a new product into the data storage
 func (p Products) AddProduct(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Handle POST Product")
 	prod := req.Context().Value(KeyProduct{}).(data.Product)
@@ -74,6 +126,15 @@ func (p Products) AddProduct(res http.ResponseWriter, req *http.Request) {
 	data.AddProduct(&prod)
 }
 
+// swagger:route PUT /products/{id} products updateProduct
+// Update a products details
+//
+// responses:
+// 		201: noContentResponse
+// 		404: errorResponse
+// 		422: errorValidation
+
+// UpdateProducts updates the specified product in the data store
 func (p Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id, err := strconv.Atoi(vars["id"])
@@ -98,7 +159,9 @@ func (p Products) UpdateProducts(res http.ResponseWriter, req *http.Request) {
 // swagger:route DELETE /products/{id} products deleteProduct
 // Returns a list of products
 // responses:
-// 	201: noContent
+// 	201: noContentResponse
+// 	404: errorResponse
+// 	501: errorResponse
 
 // DeleteProduct removes a product from the data store
 func (p Products) DeleteProduct(res http.ResponseWriter, req *http.Request) {
