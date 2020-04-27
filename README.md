@@ -36,8 +36,11 @@ make down
 - https://github.com/golang-standards/project-layout
 - https://redocly.github.io/redoc/
 
+### gRPC
+- https://developers.google.com/protocol-buffers/docs/proto3
 
-### Debugging in VS Code
+
+### Debugging Go in VS Code
 
 - https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code
 - https://github.com/go-delve/delve/issues/986
