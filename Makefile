@@ -22,7 +22,7 @@ client: 	## (Re)generate the client-api package
 
 .PHONY: protos
 protos:		## (Re)generate the code for the .proto files
-	@docker-compose exec go protoc -I grpc/protos/ grpc/protos/currency.proto --go_out=grpc/protos/currency
+	@docker-compose exec go protoc -I grpc/protos/ grpc/protos/currency.proto --go_out=plugins=grpc:grpc/protos/currency
 
 bash:		## Open a new interactive bash in the go container
 	@docker-compose exec go /bin/bash
