@@ -49,6 +49,7 @@ func main() {
 	}
 
 	go func() {
+		l.Println("HTTP Server listening on port 3000")
 		err := s.ListenAndServe()
 		if err != nil {
 			l.Fatal(err)
