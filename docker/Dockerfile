@@ -15,6 +15,12 @@ RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v3.11
 ENV PATH="$PATH:/protoc/bin"
 RUN go get github.com/golang/protobuf/protoc-gen-go
 
+# gRPC Curl
+ENV GO111MODULE=off
+RUN go get github.com/fullstorydev/grpcurl
+RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl
+ENV GO111MODULE=on
+
 COPY reflex.conf /
 
 ENTRYPOINT ["reflex", "-c", "/reflex.conf"]

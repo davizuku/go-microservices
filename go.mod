@@ -12,6 +12,7 @@ require (
 	github.com/golang/protobuf v1.4.0
 	github.com/gorilla/handlers v1.4.2
 	github.com/gorilla/mux v1.7.4
+	github.com/hashicorp/go-hclog v0.12.2
 	google.golang.org/grpc v1.29.1
 	google.golang.org/protobuf v1.21.0
 )

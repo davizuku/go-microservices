@@ -18,6 +18,45 @@ _Enter_ docker using:
 make bash
 ```
 
+### Start gRPC server
+
+```
+make bash
+go run grpc/main.go
+```
+
+### gRPC curl
+
+- Install the command `grpcurl` with:
+
+```
+go get github.com/fullstorydev/grpcurl
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl
+```
+
+- List available services in the GRPC server:
+
+```
+grpcurl --plaintext localhost:3001 list
+```
+
+- Describe `Currency` server:
+
+```
+grpcurl --plaintext localhost:3001 describe Currency
+```
+
+- You can also use `describe` with other elements of the service:
+
+```
+grpcurl --plaintext localhost:3001 describe .RateRequest
+```
+
+- Send request with data:
+```
+grpcurl --plaintext  -d '{"Base": "USD", "Destination": "EUR"}' localhost:3001 Currency.GetRate
+```
+
 ## Finish working
 
 Stop any running docker:
@@ -39,6 +78,7 @@ make down
 ### gRPC
 - https://grpc.io/docs/quickstart/go/
 - https://developers.google.com/protocol-buffers/docs/proto3
+- https://github.com/fullstorydev/grpcurl
 
 
 ### Debugging Go in VS Code
