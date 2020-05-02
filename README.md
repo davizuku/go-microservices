@@ -28,6 +28,13 @@ make bash
 go run grpc/main.go
 ```
 
+### Use gRPC client
+
+```
+make bash
+go run grpc/client.go
+```
+
 ### gRPC curl
 
 - Install the command `grpcurl` with:
