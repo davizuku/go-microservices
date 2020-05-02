@@ -4,6 +4,9 @@ Test code following the set of videos from:  https://www.youtube.com/playlist?li
 
 Teacher's repository: https://github.com/PacktPublishing/Building-Microservices-with-Go-Second-Edition
 
+
+> Note: The structure of this repository must not be followed as a standard or recommended way to structure code. This is a result of a mix of learning and following examples
+
 ## Start working
 
 Start docker running go image:
